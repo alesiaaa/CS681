@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CS681: HW16" basedir="." default="main" xmlns:jacoco="antlib:org.jacoco.ant">
+	
+	<property environment="env"/>
+	<property name="src" location="src/edu/umb/cs/cs681"/>
+	<property name="bin" location="bin"/>
+	<property name="test.src" location="test/src/edu/umb/cs/cs681"/>
+	<property name="test.bin" location="test/bin"/>
+	
+	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+		<classpath path="${env.JACOCO_HOME}/lib/jacocoant.jar"/>
+	</taskdef>
+	
+	<path id="external.classpath">
+		<fileset dir="${env.ECLIPSE_HOME}/plugins" includes="**/*.jar">
+			<exclude name="**/*ant*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="check">
+		<echo message="ANT_HOME is set to = ${env.ANT_HOME}"/>
+		<echo message="ECLIPSE_HOME is set to = ${env.ECLIPSE_HOME}"/>
+		<echo message="JACOCO_HOME is set to = ${env.JACOCO_HOME}"/>
+		<echo message="FINDBUGS_HOME is set to = ${env.FINDBUGS_HOME}"/>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${bin}"/>
+	</target>
+		
+	<target name="init" depends="clean">
+		<mkdir dir="${bin}"/>
+	</target>
+		
+	 <target name="build" depends="init">
+		<echo message="Begin compile for source files" /> 
+		    <javac destdir="${bin}" srcdir="${src}" includeantruntime="false" debug="on">
+		    	<classpath refid="external.classpath"/>
+		    </javac>
+	  	<echo message="Compile completed" />
+	  </target>
+	
+	<target name="main" depends="build">
+	  	<echo message="Start of main for ${ant.project.name}" />
+	  		<java classpath="${bin}" classname="edu.umb.cs.cs681.Test"/>
+	  	<echo message="End of main" /> 
+	</target>
+		
+	
+</project>
